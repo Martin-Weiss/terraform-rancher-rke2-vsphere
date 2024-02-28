@@ -1,0 +1,166 @@
+#cloud-config
+
+# Install Individual Packages Here
+#packages:
+#  - wireguard # For using wireguard as Calico/Canal backend (requires Kubernetes v1.23+ and Calico 3.14+)
+
+ca_certs:
+  trusted:
+  - |
+    -----BEGIN CERTIFICATE-----
+    MIIDhzCCAm+gAwIBAgIUVS8hv/sK6r15ZjVf/Zz/AQdoqjAwDQYJKoZIhvcNAQEL
+    BQAwUzELMAkGA1UEBhMCREUxGzAZBgNVBAgMEkJhZGVuLVd1ZXJ0dGVtYmVyZzEN
+    MAsGA1UECgwEU1VTRTEYMBYGA1UEAwwPcmVnaXN0cnkwMS5zdXNlMB4XDTIxMDMy
+    NDE0MTMzM1oXDTMxMDEzMTE0MTMzM1owUzELMAkGA1UEBhMCREUxGzAZBgNVBAgM
+    EkJhZGVuLVd1ZXJ0dGVtYmVyZzENMAsGA1UECgwEU1VTRTEYMBYGA1UEAwwPcmVn
+    aXN0cnkwMS5zdXNlMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAqpHI
+    1l8C83ON0MGkKA/s+bfJnFjBrHdeHoGbxnxqDk63cXLWIejI5QmUNGIKlGUpLnwl
+    It6QDtK5DRXfxR70MRDWu8p7r2yc5Vwrj/z0GqdTFFxsu+o832fukJQLAVTt2O1k
+    bH7PDzxsz9yewTNS5dRKmk27+kRjqIvudvUo2+LC/DmMpZiaXDXf60tgdHGhv38n
+    ZCqj6S2I/zh1pk2FqCz1ShQRJ8zAist/RLlO77vU30o1pHaIbEjKBj6I6O7SX6SO
+    NOBdDQ7zUEKmtmADVTQaDNBw1aJBpUtOYKAWlZyrwzmgXLFXPYcJLq7HEi9RdF2O
+    9P7SN/toZW5vsyXqxwIDAQABo1MwUTAdBgNVHQ4EFgQUlqMA2BU9MN9HRH7ebcqj
+    VjGxt6owHwYDVR0jBBgwFoAUlqMA2BU9MN9HRH7ebcqjVjGxt6owDwYDVR0TAQH/
+    BAUwAwEB/zANBgkqhkiG9w0BAQsFAAOCAQEAE9/UQ1qSi3932Lq6OJ48NkSa12V0
+    ezxE7fgDvm4wWK5J83yToNMp6K0uO3PfKWko7+ancgT3n2+gw5DO4/9YUplkszzo
+    KISVWnh+ILDHCjhzKgJNJP/zpa5bWkrvTa+WYcXqxMndYsokwd9sI/gYUtCMMngp
+    4VBOPlephUpUriB+sT6e/ODszXawLXNpM1oww2k0DOoxrF+KOMldVuqo/LXHOElR
+    amXoZIEHPRiXltNGg6NdyeSgMX0qugYyNpHRnwvwVqa9+76cOFfrQqRqq8ueeZY3
+    T7s2fY/AJ5Eg66wfhxSm8rNf31TWCz8eaqlTm5kd5Fzf2vwZp84pnDmLRg==
+    -----END CERTIFICATE-----
+  - |
+    -----BEGIN CERTIFICATE-----
+    MIIGAjCCA+qgAwIBAgIJAKCPWxL9U8LdMA0GCSqGSIb3DQEBCwUAMIGVMQswCQYD
+    VQQGEwJERTEdMBsGA1UECAwUQmFkZW4tV8ODwrxydHRlbWJlcmcxEjAQBgNVBAcM
+    CVN0dXR0Z2FydDEOMAwGA1UECgwFV2Vpc3MxHzAdBgNVBAMMFndlaXNzLTIud2Vp
+    c3MuZGRuc3MuZGUxIjAgBgkqhkiG9w0BCQEWE3dlaXNzLm1hcnRpbkB3ZWIuZGUw
+    HhcNMTkwOTE4MDgzNDQ3WhcNMjkwNzI3MDgzNDQ3WjCBlTELMAkGA1UEBhMCREUx
+    HTAbBgNVBAgMFEJhZGVuLVfDg8K8cnR0ZW1iZXJnMRIwEAYDVQQHDAlTdHV0dGdh
+    cnQxDjAMBgNVBAoMBVdlaXNzMR8wHQYDVQQDDBZ3ZWlzcy0yLndlaXNzLmRkbnNz
+    LmRlMSIwIAYJKoZIhvcNAQkBFhN3ZWlzcy5tYXJ0aW5Ad2ViLmRlMIICIjANBgkq
+    hkiG9w0BAQEFAAOCAg8AMIICCgKCAgEAzoLIDYIl18+dflHYLCGuUbeMUVrmZ+vG
+    W03TcP9hLDdJOi1djKSnV6AF7/CB1CCXN5m3cl5s1WzdoaadbiHHAMxabiPCYN+l
+    CflhzxnvkrtV7ttueKVYlIC9AjjIVxzCU96cKs/Z81itABEu0W1+8MJGxKgiBBkT
+    8ga7TR30DVpsgsxUXt2gBcrPtFGQWWpVUY0KuQbNtVhfhIcWvOUf8VkjLqAKJuat
+    YRDLS3PNbK32Pysr0q78No3QVtA8nPqFMYUhgSw9qpe4TNgnmtgRB5WBsMkTYiMa
+    l8TcwEd6ZAQeaNcu/jT2De1LeAA02hMS7KFRm7rKqsnt+WFdPAW5GtaLHIo0BJsJ
+    bvQOMm6yMNvOxhR4pjHKT8/AfSic4R13htJ86loocGMgIifJ6C8lgsWFeOWaJBq9
+    5rDC2tTmv66ClJU4UYYE0yUTZplWXS9IT6z40uEFZjLTdFxwv/I9rkebU73aptrS
+    YtT3E8pnMBDHX5ibVtLDaeu+bTgFKethfUC/pHkUxNksB9B2Bf0LFpguW6/elOcR
+    JRur0qt4EyQhn5RQwjMt00duVwQQOliqi5WF1e2dDuv3kNdnK5LSfrCdcwQFtx+X
+    GuQ2HbywrGQrew6gJTDqZkepLnhIrs6U5FQ/h+VHyB7m0phS8p+C694tEnkqlOBs
+    GU3+lBHvtxsCAwEAAaNTMFEwHQYDVR0OBBYEFKTA/k6rYkFuzyxI2OSu+yYw2ZV1
+    MB8GA1UdIwQYMBaAFKTA/k6rYkFuzyxI2OSu+yYw2ZV1MA8GA1UdEwEB/wQFMAMB
+    Af8wDQYJKoZIhvcNAQELBQADggIBAFGFHVD/ceYImFYJuwMyf+qnD9jKwKwTg8pF
+    9b9snIwP+9nJqTqRgYRclNKONr/uDx92Wf1aQ1BHKuIHKT9ThThvjmKCTnJX/xK/
+    xzQpvoTXKj6h1G4Pz235Crvj/yf1W9sp0bvenLM4SEZaD+m5M8jYSM34wKFde3hi
+    30D+GVLqnPiL5Slo5IN0Nn32oBjvyN2CHFrtt0Ud2xJCp0JDWxfpcYYuRd0Vq3cv
+    0SW77ZLGdGz8yQiWuACAd23VzBeGbzUfgSImgvG0WXHJ/ivQ+a95ascjOs+BEMPC
+    xLqiHrX0fcASheso1VFzVXNeLv0mj3f6pffVTlhmAZc09ChHT5EB21I37f6ejIiX
+    DTdYPnMeuaCS6+7p7PSeDmewnOY/QGKmm1Mj4/D8NIwdxog1RiCdWmRHDuOOMajj
+    OCjWU5x/957OsoWWRaAusKF/eQoNqbacDX8QtYuqLKDThKNbfaWUZdbhmz/YwBHh
+    A9L3vGlLgJUjcb8qV2+JMQr4jBOq9CK8DgxHncdfJJ3JoB9RD+M8X387ltR2CaR9
+    L1G4QSIJEXbT4jRfszzQTT0vQVmYvYp2uuvtFVa+tggQ3cxm/SGTuSHHGldtTpSu
+    nw5LHNFm+X/7ehzkAYF8l4GMtqrdvJFnZbjRJA6mrOWOKYDujZnSkQakWWX3Om3u
+    BGLzfXSD
+    -----END CERTIFICATE-----
+
+write_files:
+- encoding: b64
+  content: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSURoekNDQW0rZ0F3SUJBZ0lVVlM4aHYvc0s2cjE1WmpWZi9aei9BUWRvcWpBd0RRWUpLb1pJaHZjTkFRRUwKQlFBd1V6RUxNQWtHQTFVRUJoTUNSRVV4R3pBWkJnTlZCQWdNRWtKaFpHVnVMVmQxWlhKMGRHVnRZbVZ5WnpFTgpNQXNHQTFVRUNnd0VVMVZUUlRFWU1CWUdBMVVFQXd3UGNtVm5hWE4wY25rd01TNXpkWE5sTUI0WERUSXhNRE15Ck5ERTBNVE16TTFvWERUTXhNREV6TVRFME1UTXpNMW93VXpFTE1Ba0dBMVVFQmhNQ1JFVXhHekFaQmdOVkJBZ00KRWtKaFpHVnVMVmQxWlhKMGRHVnRZbVZ5WnpFTk1Bc0dBMVVFQ2d3RVUxVlRSVEVZTUJZR0ExVUVBd3dQY21WbgphWE4wY25rd01TNXpkWE5sTUlJQklqQU5CZ2txaGtpRzl3MEJBUUVGQUFPQ0FROEFNSUlCQ2dLQ0FRRUFxcEhJCjFsOEM4M09OME1Ha0tBL3MrYmZKbkZqQnJIZGVIb0dieG54cURrNjNjWExXSWVqSTVRbVVOR0lLbEdVcExud2wKSXQ2UUR0SzVEUlhmeFI3ME1SRFd1OHA3cjJ5YzVWd3JqL3owR3FkVEZGeHN1K284MzJmdWtKUUxBVlR0Mk8xawpiSDdQRHp4c3o5eWV3VE5TNWRSS21rMjcra1JqcUl2dWR2VW8yK0xDL0RtTXBaaWFYRFhmNjB0Z2RIR2h2MzhuClpDcWo2UzJJL3poMXBrMkZxQ3oxU2hRUko4ekFpc3QvUkxsTzc3dlUzMG8xcEhhSWJFaktCajZJNk83U1g2U08KTk9CZERRN3pVRUttdG1BRFZUUWFETkJ3MWFKQnBVdE9ZS0FXbFp5cnd6bWdYTEZYUFljSkxxN0hFaTlSZEYyTwo5UDdTTi90b1pXNXZzeVhxeHdJREFRQUJvMU13VVRBZEJnTlZIUTRFRmdRVWxxTUEyQlU5TU45SFJIN2ViY3FqClZqR3h0Nm93SHdZRFZSMGpCQmd3Rm9BVWxxTUEyQlU5TU45SFJIN2ViY3FqVmpHeHQ2b3dEd1lEVlIwVEFRSC8KQkFVd0F3RUIvekFOQmdrcWhraUc5dzBCQVFzRkFBT0NBUUVBRTkvVVExcVNpMzkzMkxxNk9KNDhOa1NhMTJWMAplenhFN2ZnRHZtNHdXSzVKODN5VG9OTXA2SzB1TzNQZktXa283K2FuY2dUM24yK2d3NURPNC85WVVwbGtzenpvCktJU1ZXbmgrSUxESENqaHpLZ0pOSlAvenBhNWJXa3J2VGErV1ljWHF4TW5kWXNva3dkOXNJL2dZVXRDTU1uZ3AKNFZCT1BsZXBoVXBVcmlCK3NUNmUvT0Rzelhhd0xYTnBNMW93dzJrMERPb3hyRitLT01sZFZ1cW8vTFhIT0VsUgphbVhvWklFSFBSaVhsdE5HZzZOZHllU2dNWDBxdWdZeU5wSFJud3Z3VnFhOSs3NmNPRmZyUXFScXE4dWVlWlkzClQ3czJmWS9BSjVFZzY2d2ZoeFNtOHJOZjMxVFdDejhlYXFsVG01a2Q1RnpmMnZ3WnA4NHBuRG1MUmc9PQotLS0tLUVORCBDRVJUSUZJQ0FURS0tLS0tIAotLS0tLUJFR0lOIENFUlRJRklDQVRFLS0tLS0KTUlJR0FqQ0NBK3FnQXdJQkFnSUpBS0NQV3hMOVU4TGRNQTBHQ1NxR1NJYjNEUUVCQ3dVQU1JR1ZNUXN3Q1FZRApWUVFHRXdKRVJURWRNQnNHQTFVRUNBd1VRbUZrWlc0dFY4T0R3cnh5ZEhSbGJXSmxjbWN4RWpBUUJnTlZCQWNNCkNWTjBkWFIwWjJGeWRERU9NQXdHQTFVRUNnd0ZWMlZwYzNNeEh6QWRCZ05WQkFNTUZuZGxhWE56TFRJdWQyVnAKYzNNdVpHUnVjM011WkdVeElqQWdCZ2txaGtpRzl3MEJDUUVXRTNkbGFYTnpMbTFoY25ScGJrQjNaV0l1WkdVdwpIaGNOTVRrd09URTRNRGd6TkRRM1doY05Namt3TnpJM01EZ3pORFEzV2pDQmxURUxNQWtHQTFVRUJoTUNSRVV4CkhUQWJCZ05WQkFnTUZFSmhaR1Z1TFZmRGc4SzhjblIwWlcxaVpYSm5NUkl3RUFZRFZRUUhEQWxUZEhWMGRHZGgKY25ReERqQU1CZ05WQkFvTUJWZGxhWE56TVI4d0hRWURWUVFEREJaM1pXbHpjeTB5TG5kbGFYTnpMbVJrYm5OegpMbVJsTVNJd0lBWUpLb1pJaHZjTkFRa0JGaE4zWldsemN5NXRZWEowYVc1QWQyVmlMbVJsTUlJQ0lqQU5CZ2txCmhraUc5dzBCQVFFRkFBT0NBZzhBTUlJQ0NnS0NBZ0VBem9MSURZSWwxOCtkZmxIWUxDR3VVYmVNVVZybVordkcKVzAzVGNQOWhMRGRKT2kxZGpLU25WNkFGNy9DQjFDQ1hONW0zY2w1czFXemRvYWFkYmlISEFNeGFiaVBDWU4rbApDZmxoenhudmtydFY3dHR1ZUtWWWxJQzlBampJVnh6Q1U5NmNLcy9aODFpdEFCRXUwVzErOE1KR3hLZ2lCQmtUCjhnYTdUUjMwRFZwc2dzeFVYdDJnQmNyUHRGR1FXV3BWVVkwS3VRYk50VmhmaEljV3ZPVWY4VmtqTHFBS0p1YXQKWVJETFMzUE5iSzMyUHlzcjBxNzhObzNRVnRBOG5QcUZNWVVoZ1N3OXFwZTRUTmdubXRnUkI1V0JzTWtUWWlNYQpsOFRjd0VkNlpBUWVhTmN1L2pUMkRlMUxlQUEwMmhNUzdLRlJtN3JLcXNudCtXRmRQQVc1R3RhTEhJbzBCSnNKCmJ2UU9NbTZ5TU52T3hoUjRwakhLVDgvQWZTaWM0UjEzaHRKODZsb29jR01nSWlmSjZDOGxnc1dGZU9XYUpCcTkKNXJEQzJ0VG12NjZDbEpVNFVZWUUweVVUWnBsV1hTOUlUNno0MHVFRlpqTFRkRnh3di9JOXJrZWJVNzNhcHRyUwpZdFQzRThwbk1CREhYNWliVnRMRGFldStiVGdGS2V0aGZVQy9wSGtVeE5rc0I5QjJCZjBMRnBndVc2L2VsT2NSCkpSdXIwcXQ0RXlRaG41UlF3ak10MDBkdVZ3UVFPbGlxaTVXRjFlMmREdXYza05kbks1TFNmckNkY3dRRnR4K1gKR3VRMkhieXdyR1FyZXc2Z0pURHFaa2VwTG5oSXJzNlU1RlEvaCtWSHlCN20wcGhTOHArQzY5NHRFbmtxbE9CcwpHVTMrbEJIdnR4c0NBd0VBQWFOVE1GRXdIUVlEVlIwT0JCWUVGS1RBL2s2cllrRnV6eXhJMk9TdSt5WXcyWlYxCk1COEdBMVVkSXdRWU1CYUFGS1RBL2s2cllrRnV6eXhJMk9TdSt5WXcyWlYxTUE4R0ExVWRFd0VCL3dRRk1BTUIKQWY4d0RRWUpLb1pJaHZjTkFRRUxCUUFEZ2dJQkFGR0ZIVkQvY2VZSW1GWUp1d015ZitxbkQ5akt3S3dUZzhwRgo5Yjlzbkl3UCs5bkpxVHFSZ1lSY2xOS09Oci91RHg5MldmMWFRMUJIS3VJSEtUOVRoVGh2am1LQ1RuSlgveEsvCnh6UXB2b1RYS2o2aDFHNFB6MjM1Q3J2ai95ZjFXOXNwMGJ2ZW5MTTRTRVphRCttNU04allTTTM0d0tGZGUzaGkKMzBEK0dWTHFuUGlMNVNsbzVJTjBObjMyb0JqdnlOMkNIRnJ0dDBVZDJ4SkNwMEpEV3hmcGNZWXVSZDBWcTNjdgowU1c3N1pMR2RHejh5UWlXdUFDQWQyM1Z6QmVHYnpVZmdTSW1ndkcwV1hISi9pdlErYTk1YXNjak9zK0JFTVBDCnhMcWlIclgwZmNBU2hlc28xVkZ6VlhOZUx2MG1qM2Y2cGZmVlRsaG1BWmMwOUNoSFQ1RUIyMUkzN2Y2ZWpJaVgKRFRkWVBuTWV1YUNTNis3cDdQU2VEbWV3bk9ZL1FHS21tMU1qNC9EOE5Jd2R4b2cxUmlDZFdtUkhEdU9PTWFqagpPQ2pXVTV4Lzk1N09zb1dXUmFBdXNLRi9lUW9OcWJhY0RYOFF0WXVxTEtEVGhLTmJmYVdVWmRiaG16L1l3QkhoCkE5TDN2R2xMZ0pVamNiOHFWMitKTVFyNGpCT3E5Q0s4RGd4SG5jZGZKSjNKb0I5UkQrTThYMzg3bHRSMkNhUjkKTDFHNFFTSUpFWGJUNGpSZnN6elFUVDB2UVZtWXZZcDJ1dXZ0RlZhK3RnZ1EzY3htL1NHVHVTSEhHbGR0VHBTdQpudzVMSE5GbStYLzdlaHprQVlGOGw0R010cXJkdkpGblpialJKQTZtck9XT0tZRHVqWm5Ta1Fha1dXWDNPbTN1CkJHTHpmWFNECi0tLS0tRU5EIENFUlRJRklDQVRFLS0tLS0K
+  owner: root:root
+  path: /etc/pki/trust/anchors/trusted-cas.pem
+  permissions: '0644'
+
+  # These sysctl settings are for k8s kubelet "protect-kernel-defaults" CIS Setting
+- content: |
+    kernel.panic = 10
+    kernel.panic_on_oops = 1
+    kernel.panic_ps = 1
+    vm.overcommit_memory = 1
+    vm.panic_on_oom = 0
+
+  path: /etc/sysctl.d/99-kubeletSettings.conf
+
+- content: |
+    net.ipv6.conf.all.disable_ipv6 = 1
+
+  path: /etc/sysctl.d/98-ipv6off.conf
+
+- content: |
+    apiVersion: apiserver.config.k8s.io/v1
+    kind: AdmissionConfiguration
+    plugins:
+    - name: PodSecurity
+      configuration:
+        apiVersion: pod-security.admission.config.k8s.io/v1beta1
+        kind: PodSecurityConfiguration
+        defaults:
+          enforce: "restricted"
+          enforce-version: "latest"
+          audit: "restricted"
+          audit-version: "latest"
+          warn: "restricted"
+          warn-version: "latest"
+        exemptions:
+          namespaces:
+          - calico-apiserver
+          - calico-system
+          - cattle-alerting
+          - cattle-csp-adapter-system
+          - cattle-epinio-system
+          - cattle-externalip-system
+          - cattle-fleet-local-system
+          - cattle-fleet-system
+          - cattle-gatekeeper-system
+          - cattle-global-data
+          - cattle-global-nt
+          - cattle-impersonation-system
+          - cattle-istio
+          - cattle-istio-system
+          - cattle-logging
+          - cattle-logging-system
+          - cattle-monitoring-system
+          - cattle-neuvector-system
+          - cattle-prometheus
+          - cattle-sriov-system
+          - cattle-system
+          - cattle-ui-plugin-system
+          - cattle-windows-gmsa-system
+          - cert-manager
+          - cis-operator-system
+          - fleet-default
+          - ingress-nginx
+          - istio-system
+          - kube-node-lease
+          - kube-public
+          - kube-system
+          - longhorn-system
+          - rancher-alerting-drivers
+          - security-scan
+          - tigera-operator
+  path: /etc/rancher/rke2/custom-rke2-pss.yaml
+
+runcmd:
+  - sysctl -p /etc/sysctl.d/99-kubeletSettings.conf
+  - sysctl -p /etc/sysctl.d/98-ipv6off.conf
+  - update-ca-certificates
+
+# Create Users Here
+users:
+  - name: ${ssh_user}
+    gecos: Interactive Maintenance User Account
+    groups: [sudo]
+    shell: /bin/bash
+    sudo: ALL=(ALL) NOPASSWD:ALL
+    ssh_authorized_keys:
+      - ${ssh_public_key}
+
+  # etcd User is Required for Installing with CIS Profile Enabled
+  - name: etcd
+    gecos: System Account for Running etcd Service
+    sudo: false
+    system: true
+
+groups:
+  - etcd: [etcd]
