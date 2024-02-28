@@ -164,3 +164,11 @@ users:
 
 groups:
   - etcd: [etcd]
+
+ntp:
+  enabled: true
+  ntp_client: chrony
+  servers:
+  %{~ for ntpserver in ntpservers ~}
+    - ${ntpserver} 
+  %{~ endfor ~}

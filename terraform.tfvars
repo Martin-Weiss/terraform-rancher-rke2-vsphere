@@ -33,3 +33,4 @@ registry01       = "registry01.suse"
 registry02       = "registry02.suse:5000"
 registryusername = "robot-rke2-vsphere"
 registrypassword = "4tCFcThhx6q3iLxgFYIfENVd5UtI3kKm"
+ntpservers       = ["192.168.0.31", "weiss-2.weiss.ddnss.de"]

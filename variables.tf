@@ -48,4 +48,6 @@ variable "registrypassword" {
 }
 variable "clustername" {
 }
-
+variable "ntpservers" {
+  type = list(string)
+}

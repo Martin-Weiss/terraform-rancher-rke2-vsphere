@@ -32,6 +32,7 @@ resource "rancher2_machine_config_v2" "nodes" {
       {
         ssh_user       = "rancher",
         ssh_public_key = file("${path.cwd}/files/.ssh-public-key", )
+        ntpservers     = var.ntpservers
     }) # End of templatefile
     content_library           = var.vsphere_env.library_name
     cpu_count                 = each.value.vcpu

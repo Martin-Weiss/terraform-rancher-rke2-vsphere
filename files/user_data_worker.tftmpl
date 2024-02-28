@@ -100,3 +100,12 @@ users:
     sudo: ALL=(ALL) NOPASSWD:ALL
     ssh_authorized_keys:
       - ${ssh_public_key}
+
+ntp:
+  enabled: true
+  ntp_client: chrony
+  servers:
+  %{~ for ntpserver in ntpservers ~}
+    - ${ntpserver}
+  %{~ endfor ~}
+
