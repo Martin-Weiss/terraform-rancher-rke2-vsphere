@@ -11,12 +11,12 @@ kubevip = {
 
 # These are machine specs for nodes.  Be mindful of System Requirements!
 node = {
-  ctl_plane = { hdd_capacity = 40960, name = "ctl-plane", quantity = 1, vcpu = 4, vram = 4096 }
-  worker    = { hdd_capacity = 81920, name = "worker", quantity = 1, vcpu = 4, vram = 8192 }
+  ctl_plane = { hdd_capacity = 40960, name = "ctl-plane", quantity = 3, vcpu = 4, vram = 4096 }
+  worker    = { hdd_capacity = 81920, name = "worker", quantity = 4, vcpu = 4, vram = 8192 }
 }
 
 vsphere_env = {
-  cloud_image_name = "SLES15-SP5-Minimal-15.5.0-1"
+  cloud_image_name = "sles15sp5-kiwi-template-v0.2"
   compute_node     = "any"
   datacenter       = "Datacenter1"
   datastore        = "datastore1"
@@ -27,9 +27,9 @@ vsphere_env = {
   vm_network       = ["192-168-0"]
 }
 
-clustername = "rke2-vsphere"
-stage = "rke-prod"
-registry01 = "registry01.suse"
-registry02 = "registry02.suse:5000"
+clustername      = "rke2-vsphere"
+stage            = "rke-prod"
+registry01       = "registry01.suse"
+registry02       = "registry02.suse:5000"
 registryusername = "robot-rke2-vsphere"
 registrypassword = "4tCFcThhx6q3iLxgFYIfENVd5UtI3kKm"

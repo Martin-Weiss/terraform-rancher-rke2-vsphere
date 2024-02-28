@@ -1,9 +1,9 @@
 # create registry auth secret
 resource "rancher2_secret_v2" "registryconfig-auth-registry01" {
   cluster_id = "local"
-  name = "registryconfig-auth-registry01-${var.clustername}"
-  namespace = "fleet-default"
-  type = "kubernetes.io/basic-auth"
+  name       = "registryconfig-auth-registry01-${var.clustername}"
+  namespace  = "fleet-default"
+  type       = "kubernetes.io/basic-auth"
   data = {
     username = var.registryusername
     password = var.registrypassword
@@ -12,9 +12,9 @@ resource "rancher2_secret_v2" "registryconfig-auth-registry01" {
 
 resource "rancher2_secret_v2" "registryconfig-auth-registry02" {
   cluster_id = "local"
-  name = "registryconfig-auth-registry02-${var.clustername}"
-  namespace = "fleet-default"
-  type = "kubernetes.io/basic-auth"
+  name       = "registryconfig-auth-registry02-${var.clustername}"
+  namespace  = "fleet-default"
+  type       = "kubernetes.io/basic-auth"
   data = {
     username = var.registryusername
     password = var.registrypassword
@@ -33,15 +33,16 @@ resource "rancher2_machine_config_v2" "nodes" {
         ssh_user       = "rancher",
         ssh_public_key = file("${path.cwd}/files/.ssh-public-key", )
     }) # End of templatefile
-    content_library = var.vsphere_env.library_name
-    cpu_count       = each.value.vcpu
-    creation_type   = "library"
-    datacenter      = var.vsphere_env.datacenter
-    datastore       = var.vsphere_env.datastore
-    disk_size       = each.value.hdd_capacity
-    memory_size     = each.value.vram
-    network         = var.vsphere_env.vm_network
-    vcenter         = var.vsphere_env.server
+    content_library           = var.vsphere_env.library_name
+    cpu_count                 = each.value.vcpu
+    creation_type             = "template"
+    datacenter                = var.vsphere_env.datacenter
+    datastore                 = var.vsphere_env.datastore
+    disk_size                 = each.value.hdd_capacity
+    memory_size               = each.value.vram
+    network                   = var.vsphere_env.vm_network
+    vcenter                   = var.vsphere_env.server
+    graceful_shutdown_timeout = "0"
   }
 } # End of rancher2_machine_config_v2
 
@@ -52,42 +53,42 @@ resource "rancher2_cluster_v2" "rke2" {
   name               = var.clustername
 
   rke_config {
-#    additional_manifest = templatefile("${path.cwd}/files/additional_manifests.tftmpl", {
-#      kube_vip_rbac    = data.http.kube_vip_rbac.response_body
-#      kube_vip_version = jsondecode(data.http.kube_vip_version.response_body)["tag_name"]
-#      load_balancer_ip = var.kubevip.load_balancer_ip
-#    })
+    #    additional_manifest = templatefile("${path.cwd}/files/additional_manifests.tftmpl", {
+    #      kube_vip_rbac    = data.http.kube_vip_rbac.response_body
+    #      kube_vip_version = jsondecode(data.http.kube_vip_version.response_body)["tag_name"]
+    #      load_balancer_ip = var.kubevip.load_balancer_ip
+    #    })
     registries {
-         configs {
-           hostname = var.registry01
-           insecure = false
-           auth_config_secret_name = "registryconfig-auth-registry01-${var.clustername}"
+      configs {
+        hostname                = var.registry01
+        insecure                = false
+        auth_config_secret_name = "registryconfig-auth-registry01-${var.clustername}"
       }
-         configs {
-           hostname = var.registry02
-           insecure = false
-           auth_config_secret_name = "registryconfig-auth-registry02-${var.clustername}"
+      configs {
+        hostname                = var.registry02
+        insecure                = false
+        auth_config_secret_name = "registryconfig-auth-registry02-${var.clustername}"
       }
-         mirrors {
-           endpoints = ["https://${var.registry01}","https://${var.registry02}"]
-           hostname = "docker.io"
-           rewrites = {
-             "^(?:library|)(.*)" = "${var.stage}/docker.io/$1"
-           }
+      mirrors {
+        endpoints = ["https://${var.registry01}", "https://${var.registry02}"]
+        hostname  = "docker.io"
+        rewrites = {
+          "^(?:library|)(.*)" = "${var.stage}/docker.io/$1"
+        }
       }
-         mirrors {
-           endpoints = ["https://${var.registry01}","https://${var.registry02}"]
-           hostname = "registry.suse.com"
-           rewrites = {
-             "(.*)" = "${var.stage}/registry.suse.com/$1"
-           }
+      mirrors {
+        endpoints = ["https://${var.registry01}", "https://${var.registry02}"]
+        hostname  = "registry.suse.com"
+        rewrites = {
+          "(.*)" = "${var.stage}/registry.suse.com/$1"
+        }
       }
-         mirrors {
-           endpoints = ["https://${var.registry01}","https://${var.registry02}"]
-           hostname = "registry.rancher.com"
-           rewrites = {
-             "(.*)" = "${var.stage}/registry.rancher.com/$1"
-           }
+      mirrors {
+        endpoints = ["https://${var.registry01}", "https://${var.registry02}"]
+        hostname  = "registry.rancher.com"
+        rewrites = {
+          "(.*)" = "${var.stage}/registry.rancher.com/$1"
+        }
       }
     }
     chart_values = <<EOF
@@ -169,11 +170,11 @@ resource "rancher2_cluster_v2" "rke2" {
         protect-kernel-defaults: true
         profile: "cis"
       EOF
-     #config = {
-     #  cloud-provider-name     = "rancher-vsphere"
-     #  profile                 = "cis"
-     #  protect-kernel-defaults = true # Required to install RKE2 with CIS Profile enabled
-     #}
+      #config = {
+      #  cloud-provider-name     = "rancher-vsphere"
+      #  profile                 = "cis"
+      #  protect-kernel-defaults = true # Required to install RKE2 with CIS Profile enabled
+      #}
     } # End machine_selector_config
   }   # End of rke_config
 }     # End of rancher2_cluster_v2
