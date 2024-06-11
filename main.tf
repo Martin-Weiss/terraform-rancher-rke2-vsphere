@@ -144,7 +144,7 @@ resource "rancher2_cluster_v2" "rke2" {
     EOF
 
     machine_global_config = <<EOF
-      cni: calico
+      cni: cilium
       kube-apiserver-arg: [ "admission-control-config-file=/etc/rancher/rke2/custom-rke2-pss.yaml" ]
     EOF
 
