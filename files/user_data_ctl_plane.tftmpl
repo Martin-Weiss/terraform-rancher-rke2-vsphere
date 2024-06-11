@@ -161,6 +161,7 @@ users:
     gecos: System Account for Running etcd Service
     sudo: false
     system: true
+    primary_group: etcd
 
 groups:
   - etcd: [etcd]
