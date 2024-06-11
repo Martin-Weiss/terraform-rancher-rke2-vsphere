@@ -2,7 +2,7 @@ rancher_env = {
   cloud_credential    = "esx1-vsphere"
   cluster_annotations = { "foo" = "bar" }
   cluster_labels      = { "something" = "amazing" }
-  rke2_version        = "v1.27.10+rke2r1"
+  rke2_version        = "v1.28.9+rke2r1"
 }
 
 kubevip = {
@@ -11,12 +11,13 @@ kubevip = {
 
 # These are machine specs for nodes.  Be mindful of System Requirements!
 node = {
-  ctl_plane = { hdd_capacity = 40960, name = "ctl-plane", quantity = 3, vcpu = 4, vram = 4096 }
-  worker    = { hdd_capacity = 81920, name = "worker", quantity = 4, vcpu = 4, vram = 8192 }
+  ctl_plane = { hdd_capacity = 40960, name = "ctl-plane", quantity = 1, vcpu = 4, vram = 4096 }
+  worker    = { hdd_capacity = 81920, name = "worker", quantity = 1, vcpu = 4, vram = 8192 }
 }
 
 vsphere_env = {
-  cloud_image_name = "sles15sp5-kiwi-template-v0.2"
+#  cloud_image_name = "sles15sp5-kiwi-template-v0.2"
+  cloud_image_name = "slmicro60-1"
   compute_node     = "any"
   datacenter       = "Datacenter1"
   datastore        = "datastore1"
