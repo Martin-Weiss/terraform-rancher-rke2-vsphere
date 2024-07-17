@@ -91,6 +91,13 @@ resource "rancher2_cluster_v2" "rke2" {
           "(.*)" = "${var.stage}/registry.rancher.com/$1"
         }
       }
+      mirrors {
+        endpoints = ["https://${var.registry01}", "https://${var.registry02}"]
+        hostname  = "dp.apps.rancher.io"
+        rewrites = {
+          "(.*)" = "${var.stage}/dp.apps.rancher.io/$1"
+        }
+      }
     }
     chart_values = <<EOF
       rancher-vsphere-cpi:
@@ -124,7 +131,33 @@ resource "rancher2_cluster_v2" "rke2" {
             node-role.kubernetes.io/worker: 'true'
         storageClass:
           allowVolumeExpansion: true
+          name: "vsphere"
           #datastoreURL: ${var.vsphere_env.ds_url}
+
+      rke2-cilium:
+        egressGateway: 
+          enabled: true
+        bpf:
+          masquerade: true
+        nodePort:
+          enabled: true
+        socketLB:
+          enabled: true
+        l7Proxy: false
+        kube-proxy-replacement: strict
+        k8sServiceHost: 127.0.0.1
+        k8sServicePort: 6443
+        hubble:
+          enabled: true
+          relay:
+            enabled: true
+          ui:
+            enabled: true
+            ingress:
+              enabled: true
+              hosts:
+                - hubble.rke-prod.suse
+              tls: []
 
       #rke2-calico:
       #  felixConfiguration:
@@ -152,11 +185,11 @@ resource "rancher2_cluster_v2" "rke2" {
       for_each = var.node
       content {
         cloud_credential_secret_name = data.rancher2_cloud_credential.auth.id
-        control_plane_role           = machine_pools.key == "ctl_plane" ? true : false
-        etcd_role                    = machine_pools.key == "ctl_plane" ? true : false
+        control_plane_role           = machine_pools.key == "master" ? true : false
+        etcd_role                    = machine_pools.key == "master" ? true : false
         name                         = machine_pools.value.name
         quantity                     = machine_pools.value.quantity
-        worker_role                  = machine_pools.key != "ctl_plane" ? true : false
+        worker_role                  = machine_pools.key != "master" ? true : false
 
         machine_config {
           kind = rancher2_machine_config_v2.nodes[machine_pools.key].kind
@@ -170,11 +203,8 @@ resource "rancher2_cluster_v2" "rke2" {
         cloud-provider-name: "rancher-vsphere"
         protect-kernel-defaults: true
         profile: "cis"
+        egress-selector-mode: cluster
       EOF
-      #config = {
-      #  cloud-provider-name     = "rancher-vsphere"
-      #  profile                 = "cis"
-      #  protect-kernel-defaults = true # Required to install RKE2 with CIS Profile enabled
       #}
     } # End machine_selector_config
   }   # End of rke_config

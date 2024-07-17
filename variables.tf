@@ -1,15 +1,15 @@
-variable "kubevip" {
-  description = "IP pool for kube-vip L2 Configuration"
-  type = object({
-    load_balancer_ip = string
-  })
-}
+#variable "kubevip" {
+#  description = "IP pool for kube-vip L2 Configuration"
+#  type = object({
+#    load_balancer_ip = string
+#  })
+#}
 
 variable "node" {
   description = "Properties for MachinePool node types"
   type = object({
-    ctl_plane = map(any)
-    worker    = map(any)
+    master = map(any)
+    worker = map(any)
   })
 }
 
