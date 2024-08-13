@@ -133,6 +133,11 @@ resource "rancher2_cluster_v2" "rke2" {
           allowVolumeExpansion: true
           name: "vsphere"
           #datastoreURL: ${var.vsphere_env.ds_url}
+        csiController:
+          csiResizer:
+            enabled: true
+        onlineVolumeExtend:
+          enabled: true
 
       rke2-cilium:
         egressGateway: 
